@@ -76,8 +76,8 @@
 
 \end{frame}
 
-\begin{frame}{Arquitectura de un Cluster de HPC}
-	\vspace{-0.5cm}
+\begin{frame}{Arquitectura de un Cluster de HPC (High Perfomance Computing)}
+	\vspace{-0.9cm}
 	\begin{figure}
 		\includegraphics[scale=0.42]{images/hpc_cluster}
 		\caption{Tomado de \url{https://www.gigabyte.com/Article/high-performance-computing-cluster}}
@@ -225,11 +225,142 @@ Introduce una sobrecarga computacional considerable debido al nivel requerido de
 \end{columns}
 \end{frame}
 
+
+\begin{frame}{Apptainer}
+  \begin{figure}
+  	\includegraphics[scale=0.31]{images/apptainer_historia}
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}{Gregory Kurtzer}
+  \begin{figure}
+  	\includegraphics[scale=0.4]{images/kurtzer}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Objetivos de Apptainer \citep{kurtzer2017singularity}}
+  \begin{itemize}
+  	\item \textbf{Mobility of compute} (\textbf{Portabilidad})
+  	\item \textbf{Reproducibilidad}
+  	\item \textbf{Soporte e integración con recursos tradicionales de HPC}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Mobility of compute}
+  \begin{itemize}
+  	\item Capacidad de definir, crear y mantener un workflow local que puede ser usado con confianza en diferentes hosts, sistemas operativos de Linux, provedores de servicios en la nube, etc.
+  	\item Esencial para la \textit{ciencia reproducible}.
+  	\item Apptainer usa un formato de imagen distribuible que encapsula el contenido completo del contenedor en un \textbf{archivo de imagen único} (archivo \textbf{.sif}).
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Mobility of compute}
+  \begin{itemize}
+ 	\item El archivo .sif es la representación completa de todos los archivos dentro del contenedo.
+ 	\item El .sif encapsula el sistema operativo así como también todas las dependencias necesarias para ejecutar un workflow definido.
+  	\item Este archivo puede ser copiado, compartido, mejorado, además de seguir el estándar de permisos de UNIX.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Reproducibilidad}
+  \begin{itemize}
+  	\item Si se garantiza portabilidad, se garantiza reproducibilidad.
+ 
+  	\item Una vez que se ha definido el workflow dentro de contenedor, el archivo .sif puede usarse con confianza que el código dentro del contenedor no ha sido modificado.
+  	\item Apptainer utiliza un método de validación de integridad mediante un hash por SHA256 que garantiza que la imagen del contenedor que es distribuida no ha sido modificada. 
+  	\item Cuando las investigadoras publican sus resultados, pueden distribuir el .sif de la imagen utilizada en el artículo así como su hash, permitiendo que alguien más pueda validar los resultados y confirmar la integridad del .sif descargado con el hash. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Soporte e integración con recursos tradicionales de HPC}
+
+Apptainer soporta de forma nativa tecnologías como :
+	\begin{itemize}
+		\item Infiniband y Lustre (comunicación en red de alta velocidad y baja latencia y sistema de archivos paralelo, respectivamente).
+		\item SLURM, Torque, etc (Sistemas de administración de recursos).
+		\item Aceleradores: GPUs, TPUs.
+		\item Software tradicional de HPC: OpenMP, MPI. 
+	\end{itemize}
+
+Esto como resultado que Apptainer se ejecuta como cualquier otro comando del sistema. 
+\end{frame}
+
+
+\begin{frame}{Casos de Uso}
+
+\textbf{Investigaciones académicas}
+
+\begin{itemize}
+	\item Desarrollan en ambiente local, escalan la ejecución en otra infraestructura.
+	\item Publican resultados y distruyen el análisis completo y el workflow dentro de un .sif acompañado del hash, permitiendo la reproducción y validación de resultados. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Casos de Uso}
+
+\textbf{Administración de sistemas}
+
+\begin{itemize}
+	\item El sistema de HPC es controlado y administrado por una administradora de sistemas y su equipo. 
+	\item Para mantener el sistema seguro, sólo a este grupo se le concede acceso root y control sobre el estado del sistema operativo.
+	\item Los usuarios del sistema no tiene acceso como root.
+	\item Si un usuario puede escalar a root (incluso dentro de un contenedor) en el sistema, el usuario puede potencialmente hacer cosas malas (deliberadamente o no). 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Casos de Uso}
+
+\textbf{Administración de sistemas}
+
+\begin{itemize}
+	\item Para mitigar estos riesgos, Apptainer no proporciona la capacidad de escalar permisos dentro de contenedor.
+	\item Con Apptainer \textbf{si un usuario no tiene acceso a root en el sistema objetivo, tampoco puede escalar privilegios como root dentro del contenedor}. 
+	\item La sysadmin instruiría  a las usuarias a desarrollar sus imágenes en un sistema donde tengan acceso a root para realizar operaciones de escritura en las imágenes, para posteriormente transferirlas al cluster para su ejecución a gran escala.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Casos de Uso}
+
+\textbf{Eliminar redundancia en tecnologías de contenedores}
+
+\begin{itemize}
+	\item Es posible ejecutar imágenes de Docker en ambientes HPC con Apptainer.
+	\item Por diseño, Apptainer ha sido desarrollado para trabajar sin problemas con Docker. 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{¿Por qué no sólo usar Docker en ambientes HPC?}
+
+\begin{center}
+	\textbf{Problemas de seguridad}
+\end{center}
+
+\begin{itemize}
+	\item Para cada contenedor que Docker ejecuta, el proceso del contenedor es extendido como hijo del demonio de Docker que es propiedad de root. 
+	\item Como la usuaria es capaz de interactuar y controlar el demonio de Docker, teóricamente es posible obligar al proceso del demonio a otorgar permisos privilegiados a la usuaria\footnote{ Uno de los principales retos en los centros HPC dedicados a la investigación es permitir a las usuarias ejecutar código arbitrario manteniendo simultaneamente que el sistema no se encuentra comprometido por código malicioso (intencionalmente malicioso o no).}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Workflow de Apptainer}
+	\begin{itemize}
+		\item \textbf{Build}. Construye el contenedor de Apptainer en un sistema local donde tengas acceso a root o sudo.
+		\item \textbf{Transfer}. Transfiere el contenedor a un sistema HPC donde quieres ejecutarlo.
+		\item \textbf{Run}. Ejecuta el contenedor en el sistema HPC.
+	\end{itemize}
+\end{frame}
+
 \begin{frame}[allowframebreaks]
         \frametitle{References}
 		\bibliographystyle{apalike}
 
        \bibliography{apptainer_virtualizacion.bib}
 \end{frame}
+
+
 
 \end{document}
