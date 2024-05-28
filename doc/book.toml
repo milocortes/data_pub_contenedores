@@ -1,6 +1,0 @@
-[book]
-authors = ["Hermilo Cortés"]
-language = "en"
-multilingual = false
-src = "src"
-title = "Apptainer. Data Pub"
