@@ -132,6 +132,12 @@
 \end{columns}
 \end{frame}
 
+\begin{frame}{Un buen sysadmin}
+	\begin{figure}
+		\includegraphics[scale=1.8]{images/rodrigo_lancis	}
+	\end{figure}
+\end{frame}
+
 \begin{frame}{Todo parece estar bien ... }
 	\begin{figure}
 		\includegraphics[scale=0.8]{images/armonia_cuatro	}
@@ -159,40 +165,90 @@
 \begin{frame}{Problema}
 
 	\begin{center}
-		\textit{This static nature coupled with distribution-specific software builds meant that service providers would ultimately end up limiting the scope of computational science that their systems could support}\citep{kurtzer2017singularity}
+		{\huge\textit{This static nature coupled with distribution-specific software builds meant that service providers would ultimately end up limiting the scope of computational science that their systems could support}\citep{kurtzer2017singularity}}
+	\end{center}
+
+\end{frame}
+\begin{frame}{Propuesta de solución\citep{kurtzer2017singularity}}
+	
+	\begin{center}
+		{\Large \textbf{Ambientes portables} $\rightarrow$ \textbf{Virtualización}}
+	\end{center}
+	
+	\begin{center}
+		{\Large\textit{Virtual machines have ﬁnally arrived. Dismissed for a number of years as merely academic curiosities, they are now seen as cost-eﬀective techniques
+for organizing computer systems resources to provide extraordinary system
+ﬂexibility and support for certain unique application} (Goldberg, \textbf{¿?})}
 	\end{center}
 
 \end{frame}
 
 \begin{frame}{Propuesta de solución\citep{kurtzer2017singularity}}
-	\textbf{Ambientes portables}
 	
+	\begin{center}
+		{\Large \textbf{Ambientes portables} $\rightarrow$ \textbf{Virtualización}}
+	\end{center}
+	
+	\begin{center}
+		{\Large\textit{Virtual machines have ﬁnally arrived. Dismissed for a number of years as
+merely academic curiosities, they are now seen as cost-eﬀective techniques
+for organizing computer systems resources to provide extraordinary system
+ﬂexibility and support for certain unique application} \citep{goldberg1974survey}}
+	\end{center}
+
+\end{frame}
+
+\begin{frame}{Virtualización. Definiciones \citep{bugnion2017hardware}}
 	\begin{itemize}
-		\item Máquinas virtuales.
-		\item Contenedores.
+		\item \textbf{Virtualización} : es la intermediación entre una capa compleja o fragmentada a una interfaz simplificada que pueda ser expuesta o utilizada por múltiples usuarias, donde el recurso virtual expuesto es idéntico al recurso físico subyacente que se está virtualizando \citep{bugnion2017hardware,ward2021linux}.
+		\item \textbf{Máquina virtual} :  es un ambiente de cómputo completo con capacidades propias aisladas de procesamiento, memoria y canales de comunicación.
+		\item \textbf{Hipervisor} : pieza especializada del sistema de software que administra y ejecuta las máquinas virtuales.
+		\item \textbf{Virtual machine monitor (VMM)}: subsistema del hipervisor que se enfoca en la virtualización del CPU y la memoria.
 	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Técnicas de virtualización}
+
+  \begin{figure}
+  	\includegraphics[scale=1.0]{images/tecnicas_virtualizacion}
+  	\caption{Tomado de \cite{bugnion2017hardware}}
+  \end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Clasificación de Máquinas Virtuales}
+  \begin{figure}
+  	\includegraphics[scale=1.1]{images/vm_clasificacion}
+  	\caption{Tomado de \cite{bugnion2017hardware}}
+  \end{figure}
 \end{frame}
 
 \begin{frame}{Máquinas virtuales}
 
 \begin{columns}
 \begin{column}{0.5\textwidth}
+	\begin{itemize}
+		\item Introducen una sobrecarga computacional considerable debido al nivel requerido de virtualización para emular el sistema operativo y el kernel.
+		\item Tecnologías de virtualización en procesadores x86-64 aminoran esta sobrecarga (\textit{e.g} VT-x de Intel\footnote{ \scriptsize VT-x agrega un nuevo modo de ejecución: \textbf{root mode}. El hipervisor y el sistema operativo host se ejecutan en \textbf{root mode} mientras que las máquinas virtuales se ejecutan en \textbf{non-root mode}} \citep{uhlig2005intel} y AMD-V de AMD)
+	\end{itemize}		
 
-  \begin{figure}
-  	\includegraphics[scale=0.3]{images/vmachines}
-  \end{figure}
 \end{column}
 \begin{column}{0.5\textwidth}  %%<--- here
-
-	Proporcionan un ambiente completo, incluyendo dependencias de software, bibliotecas, datos que pueden ser encapsulados y ejecutados donde sea.
-	
-	\begin{center}
-		\textbf{Problema}
-	\end{center}
-	
-Introduce una sobrecarga computacional considerable debido al nivel requerido de virtualización para emular el sistema operativo y el kernel.
+  \vspace{-1cm}
+  \begin{figure}
+  	\includegraphics[scale=1.7]{images/arquitectura_vm}
+  	\caption{\small Tomado de  \href{https://www.hpcadvisorycouncil.com/events/2017/stanford-workshop/pdf/GMKurtzer_Singularity_Keynote_Tuesday_02072017.pdf}{Greg Kurtzer keynote at HPC Advisory Council 2017 @ Stanford}}
+  \end{figure}
 \end{column}
 \end{columns}
+\end{frame}
+
+\begin{frame}{Máquinas virtuales}
+  \begin{figure}
+  	\includegraphics[scale=0.35]{images/vmachines}
+  \end{figure}
 \end{frame}
 
 
@@ -201,33 +257,48 @@ Introduce una sobrecarga computacional considerable debido al nivel requerido de
 	\begin{columns}
 \begin{column}{0.5\textwidth}
 
-  \begin{figure}
-  	\includegraphics[scale=0.3]{images/contenedores_tecnologias}
-  \end{figure}
-\end{column}
-
-	\vspace{-0.5cm}
-
-\begin{column}{0.5\textwidth}  %%<--- here
+	{\footnotesize
 	
-	Características de virtualización ligera en el kernel de Linux hace posible construir virtualización más ligera. 
-
-	\vspace{0.2cm}
+	\begin{itemize}
 	
-	Las características específicas del kernel son las que se ocupan de aislar procesos, en particular \citep{nemeth2018unix}:
+	\item Las tecnologías de contenedores utilizan el kernel del host. Aplicaciones dentro del contenedor se ejecutan con el mismo desempeño que aplicaciones nativas del SO.
+	
+	\item Virtualización más ligera. 
+
+	
+	\item Las características específicas del kernel son las que se ocupan de aislar procesos, en particular \citep{nemeth2018unix}:
 	
 		\begin{itemize}
-			\item \textbf{Namespaces} : aislan los procesos del contenedor desde la perspectiva de las características del sistema operativo.
-			\item \textbf{Control groups (cgroups)} limita el uso de los recursos del sistema y prioriza ciertos procesos sobre otros.
-					\end{itemize}
+			\item \textbf{\footnotesize Namespaces}\footnote{\scriptsize Aislan los procesos del contenedor desde la perspectiva de las características del sistema operativo}.
+			\item \textbf{\footnotesize Control groups (cgroups)}\footnote{\scriptsize Limita el uso de los recursos del sistema y prioriza ciertos procesos sobre otros}.
+		\end{itemize}
+		
+	\end{itemize}
 
+}
 	
+\end{column}
+
+
+\begin{column}{0.5\textwidth}
+	\vspace{-1cm}
+  \begin{figure}
+  	\includegraphics[scale=1.9]{images/arquitectura_docker}
+  	\caption{\footnotesize Arquitectura General de un Contenedor. Tomado de  \href{https://www.hpcadvisorycouncil.com/events/2017/stanford-workshop/pdf/GMKurtzer_Singularity_Keynote_Tuesday_02072017.pdf}{Greg Kurtzer keynote at HPC Advisory Council 2017 @ Stanford}}
+  \end{figure}	´
+
 \end{column}
 \end{columns}
 \end{frame}
 
+\begin{frame}{Contenedores}
+  \begin{figure}
+  	\includegraphics[scale=0.35]{images/contenedores_tecnologias}
+  \end{figure}
+\end{frame}
 
-\begin{frame}{Apptainer}
+
+\begin{frame}{Apptainer : Application containers for Linux}
   \begin{figure}
   	\includegraphics[scale=0.31]{images/apptainer_historia}
   \end{figure}
@@ -344,6 +415,19 @@ Esto como resultado que Apptainer se ejecuta como cualquier otro comando del sis
 	\item Para cada contenedor que Docker ejecuta, el proceso del contenedor es extendido como hijo del demonio de Docker que es propiedad de root. 
 	\item Como la usuaria es capaz de interactuar y controlar el demonio de Docker, teóricamente es posible obligar al proceso del demonio a otorgar permisos privilegiados a la usuaria\footnote{ Uno de los principales retos en los centros HPC dedicados a la investigación es permitir a las usuarias ejecutar código arbitrario manteniendo simultaneamente que el sistema no se encuentra comprometido por código malicioso (intencionalmente malicioso o no).}.
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Docker vs Apptainer}
+
+\begin{figure}%
+    \centering
+    \subfloat[\centering Docker]{{\includegraphics[width=5.5cm]{images/arquitectura_docker} }}%
+    \qquad
+    \subfloat[\centering Apptainer]{{\includegraphics[width=5.5cm]{images/arquitectura_apptainer} }}%
+    \caption{Tomado de  \href{https://www.hpcadvisorycouncil.com/events/2017/stanford-workshop/pdf/GMKurtzer_Singularity_Keynote_Tuesday_02072017.pdf}{Greg Kurtzer keynote at HPC Advisory Council 2017 @ Stanford}}%
+    \label{fig:example}%
+\end{figure}
 
 \end{frame}
 
