@@ -225,6 +225,10 @@ for organizing computer systems resources to provide extraordinary system
   \end{figure}
 \end{frame}
 
+
+
+
+
 \begin{frame}{Máquinas virtuales}
 
 \begin{columns}
@@ -324,6 +328,7 @@ for organizing computer systems resources to provide extraordinary system
   \begin{itemize}
   	\item Capacidad de definir, crear y mantener un workflow local que puede ser usado con confianza en diferentes hosts, sistemas operativos de Linux, provedores de servicios en la nube, etc.
   	\item Esencial para la \textit{ciencia reproducible}.
+  	\item \textit{Crisis de la reproducibilidad} \citep{baker2015over, open2015estimating, fidler2013science}
   	\item Apptainer usa un formato de imagen distribuible que encapsula el contenido completo del contenedor en un \textbf{archivo de imagen único} (archivo \textbf{.sif}).
 
   \end{itemize}
@@ -438,6 +443,46 @@ Esto como resultado que Apptainer se ejecuta como cualquier otro comando del sis
 		\item \textbf{Run}. Ejecuta el contenedor en el sistema HPC.
 	\end{itemize}
 \end{frame}
+
+
+\begin{frame}{Tutorial}
+	\begin{center}
+		\url{https://milocortes.github.io/data_pub_contenedores/}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}{SISEPUEDE (SImulation of SEctoral Pathways and Uncertainty Exploration for DEcarbonization)}
+
+\begin{figure}
+	\includegraphics[scale=0.5]{images/net_zero}
+\end{figure}
+\end{frame}
+
+\begin{frame}{SISEPUEDE (SImulation of SEctoral Pathways and Uncertainty Exploration for DEcarbonization)}
+
+\begin{itemize}
+	\item Es un framework de modelación integrada de emisiones usado para evaluar las trayectorias y transformaciones de emisiones.
+	\item Contabiliza emisiones bottom-up basado en el inventario de gases de efecto invernadero del IPCC.
+	\item Contabiliza las emisiones por gas de cuatro sectores de emision clave:
+		\begin{itemize}
+			\item \textbf{AFOLU} (Agriculture, Forestry, and Land Use) 
+			\item \textbf{Circular Economy} (Waste Management) 
+			\item \textbf{Energy} 
+			\item \textbf{IPPU} (Industrial Processes and Product Use)
+			\item \textbf{Socioeconomic}
+		\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{SISEPUEDE (SImulation of SEctoral Pathways and Uncertainty Exploration for DEcarbonization)}
+
+\begin{figure}
+	\includegraphics[scale=0.12]{images/sisepuede_dag}
+\end{figure}
+\end{frame}
+
 
 \begin{frame}[allowframebreaks]
         \frametitle{References}
