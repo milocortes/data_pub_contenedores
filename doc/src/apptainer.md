@@ -8,7 +8,7 @@ La instalación de Apptainer puede encontrarse en la siguiente URL:
 
 ## Descarga e interacción de imágenes pre-construidas
 
-Podemos usar los comandos ```pull``` y ```build``` para descargar imágenes de algún recurso externo como un registro OCI (Oracle Cloud Infrastructure).
+Podemos usar los comandos ```pull``` y ```build``` para descargar imágenes de algún recurso externo como un registro OCI ([Open Container Initiative](https://opencontainers.org/)).
 
 Podemos descargar imágenes preconstruidas de repositorios como:
 
