@@ -181,7 +181,7 @@
 <li><a href="https://apptainer.org/docs/admin/main/installation.html">https://apptainer.org/docs/admin/main/installation.html</a></li>
 </ul>
 <h2 id="descarga-e-interacción-de-imágenes-pre-construidas"><a class="header" href="#descarga-e-interacción-de-imágenes-pre-construidas">Descarga e interacción de imágenes pre-construidas</a></h2>
-<p>Podemos usar los comandos <code>pull</code> y <code>build</code> para descargar imágenes de algún recurso externo como un registro OCI (Oracle Cloud Infrastructure).</p>
+<p>Podemos usar los comandos <code>pull</code> y <code>build</code> para descargar imágenes de algún recurso externo como un registro OCI (<a href="https://opencontainers.org/">Open Container Initiative</a>).</p>
 <p>Podemos descargar imágenes preconstruidas de repositorios como:</p>
 <ul>
 <li>https://hub.docker.com</li>
@@ -216,10 +216,10 @@ uid=1000(milo) gid=1000(milo) groups=1000(milo),65534(nogroup)
 <p>Podemos agregar una bandera a la instrucción <code>apptainer shell</code> con un nuevo PID.</p>
 <h3 id="comando-exec"><a class="header" href="#comando-exec">Comando <code>exec</code></a></h3>
 <p>El comando <code>exec</code> nos permite ejecutar un comando dentro de un contenedor especificando el archivo <code>.sif</code>. Por ejemplo, para ejecutar el programa <code>cowsay</code> dentro del contenedor <code>lolcow_latest.sif</code>:</p>
-<pre><code class="language-bash">$ apptainer exec lolcow_latest.sif cowsay &quot;Bienvenidos al Data Pub de Mayo!!&quot;
+<pre><code class="language-bash">$ apptainer exec lolcow_latest.sif cowsay "Bienvenidos al Data Pub de Mayo!!"
 </code></pre>
 <h3 id="comando-run"><a class="header" href="#comando-run">Comando <code>run</code></a></h3>
-<p>Los contenedores de Apptainer pueden contener runscripts. Estos son programas definidos por el usuario donde se especifica las acciones que el contenedor debe llevar acabo cuando se ejecuta. </p>
+<p>Los contenedores de Apptainer pueden contener runscripts. Estos son programas definidos por el usuario donde se especifica las acciones que el contenedor debe llevar acabo cuando se ejecuta.</p>
 <p>El runscript se puede activar con el comando <code>run</code>  o invocando al contenedor como si fuera un ejecutable.</p>
 <pre><code class="language-bash">$ apptainer run lolcow_latest.sif
 ______________________________
@@ -243,15 +243,15 @@ ______________________________
 </code></pre>
 <h3 id="trabajando-con-archivos"><a class="header" href="#trabajando-con-archivos">Trabajando con archivos</a></h3>
 <p>Archivos en el host son alcanzables desde dentro del contenedor:</p>
-<pre><code class="language-bash">$ echo &quot;Hola dentro del Contenedor, Parroquian@s!&quot; &gt; $HOME/hostfile.txt
+<pre><code class="language-bash">$ echo "Hola dentro del Contenedor, Parroquian@s!" &gt; $HOME/hostfile.txt
 
 $ apptainer exec lolcow_latest.sif cat $HOME/hostfile.txt
 
 Hola dentro del Contenedor, Parroquian@s!
 </code></pre>
-<p>El ejemplo funciona porque el archivo <code>hostfile.txt</code> existe en el directorio home del usuario (<code>$HOME</code>). Por default, Apptainer monta el directorio <code>$HOME</code>, el directorio de trabajo actual, así como ubicaciones adicionales del sistema del host en el contenedor. </p>
+<p>El ejemplo funciona porque el archivo <code>hostfile.txt</code> existe en el directorio home del usuario (<code>$HOME</code>). Por default, Apptainer monta el directorio <code>$HOME</code>, el directorio de trabajo actual, así como ubicaciones adicionales del sistema del host en el contenedor.</p>
 <p>Es posible montar directorios adicionales en el contenedor con la opción <code>--bind</code>. En el siguiente ejemplo montamos el directorio <code>/data</code> del host en el directorio  <code>/mnt</code> dentro del contenedor.</p>
-<pre><code class="language-bash">$ echo &quot;Drink milk (and never eat hamburgers).&quot; &gt; /data/cow_advice.txt
+<pre><code class="language-bash">$ echo "Drink milk (and never eat hamburgers)." &gt; /data/cow_advice.txt
 
 $ apptainer exec --bind /data:/mnt lolcow_latest.sif cat /mnt/cow_advice.txt
 Drink milk (and never eat hamburgers).
@@ -268,7 +268,7 @@ Drink milk (and never eat hamburgers).
                 ||     ||
 </code></pre>
 <h3 id="configuración-de-imagen-mediante-un-sandbox"><a class="header" href="#configuración-de-imagen-mediante-un-sandbox">Configuración de imagen mediante un sandbox</a></h3>
-<p>Un <code>sandbox</code> es un contenedor dentro de un directorio. </p>
+<p>Un <code>sandbox</code> es un contenedor dentro de un directorio.</p>
 <blockquote>
 <p>Un sandbox es un entorno aislado de pruebas.</p>
 </blockquote>
@@ -311,7 +311,7 @@ Drink milk (and never eat hamburgers).
 <p>El comando crea un directorio llamado <code>ubuntu/</code> con un Sistema Operativo completo de Ubuntu y algunos metadatos de Apptainer en el directorio de trabajo actual.</p>
 <p>Es posible utilizar comandos como <code>shell</code>, <code>exec</code> y <code>run</code> con este directorio sandbox tan cual como lo haríamos con una imagen .sif de Apptainer. Si agregamos la opción <code>--writable</code> o <code>-w</code> al utilizar el contenedor, podemos escribir archivos dentro del directorio sandbox (siempre y cuando se cuente con los permisos para hacerlo).</p>
 <blockquote>
-<p>Si agregamos las opciones <code>-pf</code>, significa que ejecutamos el contenedor en un nuevo PID (<code>--pid</code>) así como tambien con la apariencia de ejecutarse como root(<code>--fakeroot</code>) </p>
+<p>Si agregamos las opciones <code>-pf</code>, significa que ejecutamos el contenedor en un nuevo PID (<code>--pid</code>) así como tambien con la apariencia de ejecutarse como root(<code>--fakeroot</code>)</p>
 </blockquote>
 <pre><code class="language-bash">$ apptainer exec --writable ubuntu touch /foo
 
@@ -324,7 +324,7 @@ $ apptainer exec ubuntu/ ls /foo
 </code></pre>
 <h3 id="archivos-de-definición-de-apptainer"><a class="header" href="#archivos-de-definición-de-apptainer">Archivos de definición de Apptainer</a></h3>
 <p>Para construir un contenedor reproducible, verificable y con calidad de producción, se recomienda crear un archivo SIF utilizando un archivo de definición de Apptainer. Además, facilita la adición de archivos, variables de entorno e instalación de software personalizado. Es posible comenzar con imágenes base de Docker Hub y usar imágenes directamente de repositorios oficiales como Ubuntu, Debian, CentOS, Arch y BusyBox.</p>
-<p>Un archivo de definición tiene un encabezado y un cuerpo. El encabezado determina el contenedor base de inicio. El cuerpo está dividido en secciones que realizan tareas como instalación de software, configuración del ambiente, copiado de archivos del host al contenedor, etc. </p>
+<p>Un archivo de definición tiene un encabezado y un cuerpo. El encabezado determina el contenedor base de inicio. El cuerpo está dividido en secciones que realizan tareas como instalación de software, configuración del ambiente, copiado de archivos del host al contenedor, etc.</p>
 <p>El siguiente es un ejemplo de un archivo de definición:</p>
 <pre><code class="language-bash">BootStrap: docker
 From: ubuntu:22.04
